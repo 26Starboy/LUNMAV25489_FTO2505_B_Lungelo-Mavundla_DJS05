@@ -1,8 +1,6 @@
 {
   "name": "lunmav25489-fto2505-b-lungelo-mavundla-djs05",
   "private": true,
-  "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
