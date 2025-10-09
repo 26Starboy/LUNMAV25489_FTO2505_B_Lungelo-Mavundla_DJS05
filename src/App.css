@@ -1,24 +1,41 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
+/* -----------------------------
+  Global Styles
+----------------------------- */
 body {
+  font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
-  transition: background 0.3s, color 0.3s; /* Smooth theme transition */
+  background: linear-gradient(135deg, #0D0D0D, #2A1E5E);
+  color: #E5E7EB;
   min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
 }
 
-body.dark {
-  font-family: 'Roboto', sans-serif;
-  background: linear-gradient(135deg, #0D0D0D, #2A1E5E); /* Dark cosmic gradient */
-  color: #E5E7EB; /* Light gray text */
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  animation: twinkling 10s infinite linear;
+  pointer-events: none;
+  z-index: -1;
 }
 
-body.light {
-  font-family: 'Roboto', sans-serif;
-  background: linear-gradient(135deg, #F0F2F5, #D1E8E4); /* Light gradient */
-  color: #333333; /* Dark gray text */
+@keyframes twinkling {
+  0% { background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><circle cx="10%" cy="20%" r="1" fill="#fff" opacity="0.5"/><circle cx="30%" cy="50%" r="1" fill="#fff" opacity="0.3"/><circle cx="60%" cy="30%" r="1" fill="#fff" opacity="0.4"/><circle cx="80%" cy="70%" r="1" fill="#fff" opacity="0.6"/><circle cx="50%" cy="10%" r="1" fill="#fff" opacity="0.2"/></svg>') no-repeat; }
+  50% { opacity: 0.8; transform: scale(1.05); }
+  100% { opacity: 0.5; transform: scale(1); }
 }
 
+/* -----------------------------
+  App Container & Header
+----------------------------- */
 .App {
   text-align: center;
   max-width: 1200px;
@@ -27,35 +44,24 @@ body.light {
 }
 
 .App-header {
+  background-color: #6B21A8;
   padding: 20px;
+  color: #FFFFFF;
   border-radius: 8px 8px 0 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   margin-bottom: 20px;
 }
 
-body.dark .App-header {
-  background-color: #6B21A8; /* Dark mode purple */
-  color: #FFFFFF;
-}
-
-body.light .App-header {
-  background-color: #A3BFFA; /* Light mode blue */
-  color: #333333;
-}
-
+/* Loading & Error messages */
 .loading, .error {
   font-size: 1.2em;
   margin: 20px;
+  color: #F87171;
 }
 
-body.dark .loading, body.dark .error {
-  color: #F87171; /* Red for dark mode */
-}
-
-body.light .loading, body.light .error {
-  color: #DC2626; /* Slightly darker red for light mode */
-}
-
+/* -----------------------------
+  Homepage Filters & Show List
+----------------------------- */
 .homepage .filters {
   display: flex;
   justify-content: center;
@@ -66,24 +72,12 @@ body.light .loading, body.light .error {
 .homepage .filters input,
 .homepage .filters select {
   padding: 10px;
-  border: 1px solid;
+  border: 1px solid #4B5563;
   border-radius: 4px;
   font-size: 1em;
   width: 200px;
-}
-
-body.dark .homepage .filters input,
-body.dark .homepage .filters select {
-  border-color: #4B5563;
   background-color: #1F2937;
   color: #E5E7EB;
-}
-
-body.light .homepage .filters input,
-body.light .homepage .filters select {
-  border-color: #D1D5DB;
-  background-color: #FFFFFF;
-  color: #333333;
 }
 
 .homepage .show-list {
@@ -92,24 +86,15 @@ body.light .homepage .filters select {
   gap: 20px;
 }
 
+/* Show Card */
 .show-card {
+  background-color: #1F2937;
+  border: 1px solid #374151;
   padding: 15px;
   border-radius: 8px;
   text-align: left;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s;
-}
-
-body.dark .show-card {
-  background-color: #1F2937;
-  border: 1px solid #374151;
-  color: #D1D5DB;
-}
-
-body.light .show-card {
-  background-color: #FFFFFF;
-  border: 1px solid #E5E7EB;
-  color: #333333;
 }
 
 .show-card:hover {
@@ -125,62 +110,36 @@ body.light .show-card {
 .show-card h3 {
   font-size: 1.2em;
   margin: 10px 0;
-}
-
-body.dark .show-card h3 {
   color: #F3F4F6;
-}
-
-body.light .show-card h3 {
-  color: #1F2937;
 }
 
 .show-card p {
   font-size: 0.9em;
+  color: #D1D5DB;
 }
 
-body.dark .show-card p {
-  color: #9CA3AF;
-}
-
-body.light .show-card p {
-  color: #6B7280;
-}
-
+/* Genres in show card */
 .show-card .genres .genre-tag {
+  background-color: #9333EA;
+  color: #FFFFFF;
   padding: 4px 8px;
   margin-right: 5px;
   border-radius: 20px;
   font-size: 0.8em;
 }
 
-body.dark .show-card .genres .genre-tag {
-  background-color: #9333EA;
-  color: #FFFFFF;
-}
-
-body.light .show-card .genres .genre-tag {
-  background-color: #7C3AED;
-  color: #FFFFFF;
-}
-
+/* -----------------------------
+  Show Detail Page
+----------------------------- */
 .show-detail {
+  background-color: #1F2937;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   text-align: left;
 }
 
-body.dark .show-detail {
-  background-color: #1F2937;
-  color: #D1D5DB;
-}
-
-body.light .show-detail {
-  background-color: #FFFFFF;
-  color: #333333;
-}
-
+/* Show header layout */
 .show-detail .show-header {
   display: flex;
   gap: 20px;
@@ -194,114 +153,66 @@ body.light .show-detail {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.show-detail .show-info {
+  flex: 1;
+}
+
 .show-detail h1 {
   font-size: 2em;
   margin-bottom: 10px;
-}
-
-body.dark .show-detail h1 {
   color: #F3F4F6;
-}
-
-body.light .show-detail h1 {
-  color: #1F2937;
 }
 
 .show-detail p {
   font-size: 1em;
   line-height: 1.5;
+  color: #D1D5DB;
 }
 
+/* Genres in show detail */
 .show-detail .genres .genre-tag {
+  background-color: #9333EA;
+  color: #FFFFFF;
   padding: 5px 10px;
   margin-right: 5px;
   border-radius: 20px;
 }
 
-body.dark .show-detail .genres .genre-tag {
-  background-color: #9333EA;
-  color: #FFFFFF;
-}
-
-body.light .show-detail .genres .genre-tag {
-  background-color: #7C3AED;
-  color: #FFFFFF;
-}
-
-.show-detail .genre-details {
-  margin-top: 15px;
-  padding: 10px;
-  border-radius: 4px;
-  border-left: 4px solid;
-}
-
-body.dark .show-detail .genre-details {
-  background-color: #374151;
-  color: #D1D5DB;
-  border-left-color: #9333EA;
-}
-
-body.light .show-detail .genre-details {
-  background-color: #E5E7EB;
-  color: #333333;
-  border-left-color: #7C3AED;
-}
-
-.show-detail .genre-details h3 {
-  font-size: 1.2em;
-  margin: 0 0 5px 0;
-}
-
-body.dark .show-detail .genre-details h3 {
-  color: #F3F4F6;
-}
-
-body.light .show-detail .genre-details h3 {
-  color: #1F2937;
-}
-
-.show-detail .genre-details p {
-  font-size: 0.9em;
-  margin: 0;
-}
-
+/* -----------------------------
+  Season Selector
+----------------------------- */
 .season-selector {
   margin-bottom: 20px;
   text-align: right;
-  position: relative;
+}
+
+.season-selector label {
+  margin-right: 10px;
+  font-weight: 500;
+  color: #E5E7EB;
 }
 
 .season-selector select {
   padding: 10px;
-  border: 1px solid;
+  border: 1px solid #4B5563;
   border-radius: 4px;
   font-size: 1em;
-  margin-top: 10px;
-}
-
-body.dark .season-selector select {
-  border-color: #4B5563;
   background-color: #1F2937;
   color: #E5E7EB;
+  appearance: none;
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv...');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px;
 }
 
-body.light .season-selector select {
-  border-color: #D1D5DB;
-  background-color: #FFFFFF;
-  color: #333333;
-}
-
+/* -----------------------------
+  Episodes
+----------------------------- */
 .season-section h2 {
   font-size: 1.5em;
   margin-bottom: 10px;
-}
-
-body.dark .season-section h2 {
   color: #F3F4F6;
-}
-
-body.light .season-section h2 {
-  color: #1F2937;
 }
 
 .episode-list {
@@ -311,6 +222,8 @@ body.light .season-section h2 {
 }
 
 .episode-card {
+  background-color: #374151;
+  border: 1px solid #4B5563;
   padding: 10px;
   border-radius: 8px;
   display: flex;
@@ -319,73 +232,32 @@ body.light .season-section h2 {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-body.dark .episode-card {
-  background-color: #374151;
-  border: 1px solid #4B5563;
-  color: #D1D5DB;
-}
-
-body.light .episode-card {
-  background-color: #E5E7EB;
-  border: 1px solid #D1D5DB;
-  color: #333333;
-}
-
 .episode-card .episode-image {
   width: 60px;
   height: 60px;
   border-radius: 4px;
 }
 
-.episode-card .episode-info h4 {
+.episode-card h4 {
   font-size: 1em;
   margin: 0;
-}
-
-body.dark .episode-card .episode-info h4 {
   color: #F3F4F6;
 }
 
-body.light .episode-card .episode-info h4 {
-  color: #1F2937;
-}
-
-.episode-card .episode-info p {
+.episode-card p {
   font-size: 0.9em;
   margin: 5px 0 0;
-}
-
-body.dark .episode-card .episode-info p {
   color: #9CA3AF;
 }
 
-body.light .episode-card .episode-info p {
-  color: #6B7280;
-}
-
-.theme-toggle {
-  padding: 8px 16px;
-  margin-bottom: 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1em;
-}
-
-body.dark .theme-toggle {
-  background-color: #4B5563;
-  color: #E5E7EB;
-}
-
-body.light .theme-toggle {
-  background-color: #D1D5DB;
-  color: #333333;
-}
-
+/* -----------------------------
+  Responsive
+----------------------------- */
 @media (max-width: 1024px) {
   .show-detail .show-header {
     flex-direction: column;
   }
+
   .show-detail .show-image {
     max-width: 100%;
   }
@@ -395,32 +267,101 @@ body.light .theme-toggle {
   .App {
     padding: 10px;
   }
+
   .homepage .filters {
     flex-direction: column;
-    gap: 10px;
-  }
-  .homepage .filters input,
-  .homepage .filters select {
-    width: 100%;
-  }
-  .season-selector {
-    text-align: left;
-  }
-  .episode-card {
-    flex-direction: column;
-    text-align: center;
-  }
-  .episode-card .episode-image {
-    width: 80px;
-    height: 80px;
   }
 }
 
-@media (max-width: 480px) {
-  .show-card h3 {
-    font-size: 1em;
+/* -----------------------------
+  Back Button
+----------------------------- */
+.back-btn {
+  margin-bottom: 15px;
+  padding: 8px 15px;
+  border-radius: 5px;
+  background-color: #6B21A8;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95em;
+}
+
+.back-btn:hover {
+  background-color: #9333EA;
+  transform: scale(1.05);
+  transition: transform 0.2s, background 0.2s;
+}
+
+/* -----------------------------
+  Genre tags hover glow
+----------------------------- */
+.genre-tag {
+  background: rgba(147, 51, 234, 0.1);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+  padding: 5px 10px;
+  margin-right: 5px;
+  border-radius: 20px;
+  color: #FFFFFF;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.genre-tag:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 40px rgba(147, 51, 234, 0.3);
+}
+
+/* -----------------------------
+  Numbered Pagination Styles
+----------------------------- */
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.pagination-btn {
+  padding: 8px 14px;
+  border-radius: 5px;
+  background-color: #6B21A8; /* same as back button */
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95em;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.pagination-btn:hover {
+  background-color: #9333EA; /* hover glow like back button */
+  transform: scale(1.05);
+}
+
+.pagination-btn.active {
+  background-color: #9333EA; /* active page highlight */
+  font-weight: bold;
+  cursor: default;
+}
+
+.pagination-btn:disabled {
+  background-color: #4B5563; /* gray out disabled */
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Optional: small gap adjustment for mobile */
+@media (max-width: 768px) {
+  .pagination-controls {
+    gap: 6px;
+    flex-wrap: wrap; /* allow numbers to wrap on very small screens */
   }
-  .show-detail h1 {
-    font-size: 1.5em;
+  
+  .pagination-btn {
+    padding: 6px 12px;
+    font-size: 0.9em;
   }
 }

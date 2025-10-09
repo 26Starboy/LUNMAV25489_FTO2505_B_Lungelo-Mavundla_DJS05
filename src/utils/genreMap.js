@@ -1,6 +1,5 @@
 /**
- * Mapping of genre IDs to their corresponding titles.
- * @type {Object}
+ * Mapping of genre IDs to titles.
  */
 const genreMap = {
   1: 'Personal Growth',

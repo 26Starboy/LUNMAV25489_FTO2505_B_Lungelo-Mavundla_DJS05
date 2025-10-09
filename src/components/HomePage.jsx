@@ -1,58 +1,67 @@
 import React, { useEffect, useState } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, Link, useLocation } from 'react-router-dom';
 import ShowCard from './ShowCard.jsx';
 import genreMap from '../utils/genreMap.js';
+import Pagination from './Pagination.jsx';
 
-/**
- * Homepage component that displays a list of podcast shows with search and genre filtering.
- * Preserves state using URL search params and supports theme toggling.
- * @returns {JSX.Element} The rendered homepage.
- */
 function HomePage() {
-  const [shows, setShows] = useState([]); // Store fetched show previews
-  const [loading, setLoading] = useState(true); // Track loading status
-  const [error, setError] = useState(null); // Handle fetch errors
-  const [searchParams, setSearchParams] = useSearchParams(); // Manage URL params
-  const [isDarkMode, setIsDarkMode] = useState(true); // Manage dark mode state
-  const searchQuery = searchParams.get('search') || ''; // Get search term
-  const genreId = searchParams.get('genre') || ''; // Get genre filter
+  const [shows, setShows] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const showsPerPage = 8; // 8 shows per page
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchQuery = searchParams.get('search') || '';
+  const genreId = searchParams.get('genre') || '';
+
+  const location = useLocation();
 
   useEffect(() => {
-    fetch('https://podcast-api.netlify.app') // Fetch show previews
+    fetch('https://podcast-api.netlify.app')
       .then((res) => res.json())
       .then((data) => {
         setShows(data);
         setLoading(false);
       })
-      .catch((err) => {
+      .catch(() => {
         setError('Failed to load shows.');
         setLoading(false);
       });
   }, []);
 
   const handleSearchChange = (e) => {
-    setSearchParams({ search: e.target.value, genre: genreId }); // Update search param
+    setSearchParams({ search: e.target.value, genre: genreId });
+    setCurrentPage(1); // reset to page 1 on search
   };
 
   const handleGenreChange = (e) => {
-    setSearchParams({ search: searchQuery, genre: e.target.value }); // Update genre param
+    setSearchParams({ search: searchQuery, genre: e.target.value });
+    setCurrentPage(1); // reset to page 1 on filter
   };
 
+  // Filter shows
   const filteredShows = shows.filter((show) => {
-    const matchesSearch = show.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    const matchesSearch =
+      show.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       show.description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesGenre = genreId ? show.genres.includes(parseInt(genreId)) : true;
     return matchesSearch && matchesGenre;
   });
 
-  if (loading) return <div className={`loading ${isDarkMode ? 'dark' : 'light'}`}>Loading...</div>;
-  if (error) return <div className={`error ${isDarkMode ? 'dark' : 'light'}`}>{error}</div>;
+  // Pagination logic
+  const totalPages = 8; // always show 8 pages
+  const startIndex = (currentPage - 1) * showsPerPage;
+  const endIndex = startIndex + showsPerPage;
+  const currentShows = filteredShows.slice(startIndex, endIndex);
+
+  if (loading) return <div className="loading">Loading...</div>;
+  if (error) return <div className="error">{error}</div>;
 
   return (
-    <div className={`homepage ${isDarkMode ? 'dark' : 'light'}`}>
-      <button onClick={() => setIsDarkMode(!isDarkMode)} className="theme-toggle">
-        {isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-      </button>
+    <div className="homepage">
+      {/* Filters */}
       <div className="filters">
         <input
           type="text"
@@ -60,24 +69,40 @@ function HomePage() {
           value={searchQuery}
           onChange={handleSearchChange}
         />
+
         <select value={genreId} onChange={handleGenreChange}>
           <option value="">All Genres</option>
           {Object.entries(genreMap).map(([id, title]) => (
-            <option key={id} value={id}>{title}</option>
+            <option key={id} value={id}>
+              {title}
+            </option>
           ))}
         </select>
       </div>
+
+      {/* Shows */}
       <div className="show-list">
-        {filteredShows.length === 0 ? (
+        {currentShows.length === 0 ? (
           <p>No shows found.</p>
         ) : (
-          filteredShows.map((show) => (
-            <Link key={show.id} to={`/shows/${show.id}`}>
+          currentShows.map((show) => (
+            <Link
+              key={show.id}
+              to={`/shows/${show.id}`}
+              state={{ from: `${location.pathname}?${searchParams.toString()}` }}
+            >
               <ShowCard show={show} />
             </Link>
           ))
         )}
       </div>
+
+      {/* Pagination */}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={(page) => setCurrentPage(page)}
+      />
     </div>
   );
 }
