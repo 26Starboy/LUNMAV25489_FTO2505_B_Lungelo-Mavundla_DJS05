@@ -42,7 +42,7 @@ Welcome to the Podcast App, a React-based application built with Vite that allow
 - `src/`: 
   - `App.jsx`: Main application with routing.
   - `components/`: React components (`HomePage.jsx`, `ShowDetail.jsx`, `ShowCard.jsx`, `EpisodeCard.jsx`, `SeasonSelector.jsx`).
-  - `utils/`: Utility files (`genreMap.js`, `formatDate.js`).
+  - `utils/`: Utility files (`genreMap.js`, `formatDate.js``Pagination.jsx` ).
   - `App.css`: Global styles with cosmic theme.
 - `vite.config.js`: Vite configuration.
 - `index.html`: Root HTML file with Google Fonts.
